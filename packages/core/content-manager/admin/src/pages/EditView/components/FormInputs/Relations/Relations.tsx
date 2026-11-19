@@ -797,9 +797,6 @@ const RelationModalWithContext = ({
           }
           hasMoreItems={hasNextPage}
           loading={isLoadingSearchRelations || isLoadingPermissions}
-          onOpenChange={() => {
-            handleSearch(textValue ?? '');
-          }}
           noOptionsMessage={() =>
             formatMessage({
               id: getTranslation('relation.notAvailable'),
@@ -812,7 +809,12 @@ const RelationModalWithContext = ({
           })}
           onLoadMore={handleLoadMore}
           textValue={textValue}
-          onChange={handleChange}
+          onChange={(relationId) => {
+            handleChange(relationId);
+            // The search is only driven by typing. Clear it on selection so the selected
+            // label isn't used as a filter when the dropdown is reopened.
+            handleSearch('');
+          }}
           onTextValueChange={(text) => {
             setTextValue(text);
           }}
